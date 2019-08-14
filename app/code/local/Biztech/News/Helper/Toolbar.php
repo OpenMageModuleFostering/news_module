@@ -29,6 +29,7 @@
 
         public function getAvailLimits()
         {
+            
             $params = $this->getToolbarParams();
 
             $limits = array();
@@ -50,11 +51,10 @@
         public function getToolbarBlock()
         {
             $block = $this->getToolbarParentBlock()->getLayout()->getBlock('Biztech_news_list_toolbar');
-
+            
             if (!$block) {
                 return $this->getToolbarParentBlock()->getLayout()->createBlock('news/product_toolbar', microtime());
             }
-
             return $block;
         }
 

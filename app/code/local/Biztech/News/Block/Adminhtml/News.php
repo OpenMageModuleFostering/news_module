@@ -7,7 +7,13 @@ class Biztech_News_Block_Adminhtml_News extends Mage_Adminhtml_Block_Widget_Grid
             $this->_blockGroup = 'news';
             $this->_headerText = Mage::helper('news')->__('News Manager');
             $this->_addButtonLabel = Mage::helper('news')->__('Add News');
-            parent::__construct();
+           
+            if(Mage::getStoreConfig('news/news_general/enabled') == 1){
+                parent::__construct();
+            }
+            else{
+                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('news')->__('News extension is not enabled. Please enable it from System > Configuration.'));
+            }
         }
         public function _prepareLayout()
         {

@@ -2,23 +2,106 @@
 <layout version="0.1.0">
 
     <default>
+        <reference name="head">
+            <action method="addItem" ifconfig="news/news_general/enabled">
+                <type>skin_css</type>
+                <name>news/css/news.css</name>
+                <params/>
+            </action>
+        </reference>
+        <reference name="top.links">
+            <action method="addLink" translate="label title" module="news" ifconfig="news/news_general/enabled" >
+                <label>News</label>
+                <url helper="news/getNewsUrl"/>
+                <title>News</title>
+                <prepare/>
+                <urlParams/>
+                <position>20</position>
+            </action>
+        </reference> 
+        <reference name="left">
+            <block type="news/news" name="news_left_column" after="-" >
+                <action method="setTemplate" ifconfig="news/news_general/news_show_left_column">
+                    <template>news/news_column.phtml</template>
+                </action>
+            </block>
+        </reference>
+        <reference name="right">
+            <block type="news/news" name="news_right_column" after="-" >
+                <action method="setTemplate" ifconfig="news/news_general/news_show_right_column">
+                    <template>news/news_column.phtml</template>
+                </action>
+            </block> 
+        </reference>
     </default>
+    
+    <cms_page>
+        <reference name="head">
+            <action method="addItem" ifconfig="news/news_general/enabled_ticker">
+                <type>skin_js</type>
+                <name>news/js/jquery-1.6.4.min.js</name>
+            </action>
+            <action method="addItem" ifconfig="news/news_general/enabled_ticker">
+                <type>skin_js</type>
+                <name>news/js/jquery.ticker.js</name>
+            </action>
+            <action method="addItem" ifconfig="news/news_general/enabled_ticker">
+                <type>skin_js</type>
+                <name>news/js/site.js</name>
+            </action>
+            <action method="addItem" ifconfig="news/news_general/enabled_ticker">
+                <type>skin_css</type>
+                <name>news/css/ticker-style.css</name>
+            </action>
+        </reference>
+        
+        <reference name="content">
+            <block type="news/news" name="news.ticker" before="-">
+                <action method="setTemplate" ifconfig="news/news_general/enabled">
+                    <template>news/news_ticker.phtml</template>
+                </action>
+            </block>
+        </reference>
+    </cms_page>
+    
     <news_index_index>
         <reference name="root">
-            <action method="setTemplate"><template>page/1column.phtml</template></action>
+            <action method="setTemplate">
+                <template>page/2columns-left.phtml</template>
+            </action>
+        </reference>
+        <reference name="head">
+            <action method="setTitle" news="title">
+                <title>News</title>
+            </action>
+        </reference>
+        <reference name="left">
+            <remove name="news_left_column"/>
+            <remove name="left.newsletter"/>
+            <remove name="left.permanent.callout"/>
+            <block type="news/category" name="category_left_column" before="-" >
+                <action method="setTemplate" ifconfig="news/news_general/enabled">
+                    <template>news/category_column.phtml</template>
+                </action>
+            </block>
+        </reference>
+        <reference name="right">
+            <remove name="news_right_column"/>
         </reference>
         <reference name="content">
             <block type="news/news" name="news" template="news/newslist.phtml" />
         </reference>
-        
     </news_index_index>
-    
+
     <news_index_view>
         <reference name="root">
-            <action method="setTemplate"><template>page/1column.phtml</template></action>
+            <action method="setTemplate">
+                <template>page/1column.phtml</template>
+            </action>
         </reference>
         <reference name="content">
             <block type="news/news" name="news.view" template="news/news.phtml"/>
         </reference>
     </news_index_view>
+
 </layout> 

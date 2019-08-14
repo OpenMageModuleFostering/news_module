@@ -1,0 +1,36 @@
+<?php
+
+    $data = $this->getRequest()->getParams();
+    $pageIdentifier = Mage::getSingleton('cms/page')->getIdentifier();
+    $store = Mage::app()->getStore()->getStoreId();
+
+    $tickerCollection = $this->getTickerCollection($pageIdentifier,$store)->getData(); 
+
+    if (Mage::getStoreConfig('news/news_general/enabled') && Mage::getStoreConfig('news/news_general/enabled_ticker') && count($tickerCollection) > 0): ?>   
+    <ul id="js-news" class="js-hidden">
+        <?php foreach($tickerCollection as $ticker): ?>
+            <li class="news-item"><a href="#"><?php echo $ticker['title'];?></a></li>
+            <?php endforeach; ?>
+    </ul>
+
+    <script type="text/javascript">
+
+        var $jquey = jQuery.noConflict();
+        $jquey.fn.ticker.defaults = {
+            speed: 0.10,            
+            ajaxFeed: false,
+            feedUrl: '',
+            feedType: 'xml',
+            displayType: 'reveal',
+            htmlFeed: true,
+            debugMode: true,
+            controls: true,
+            titleText: '<?php echo $this->__('Latest News'); ?>',    
+            direction: 'ltr',    
+            pauseOnItems: 3000,
+            fadeInSpeed: 600,
+            fadeOutSpeed: 300};
+        $jquey('#js-news').ticker();
+
+    </script>
+    <?php endif; ?>

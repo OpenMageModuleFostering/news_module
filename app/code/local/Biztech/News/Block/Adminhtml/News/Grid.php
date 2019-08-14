@@ -13,7 +13,14 @@ class Biztech_News_Block_Adminhtml_News_Grid extends Mage_Adminhtml_Block_Widget
 
   protected function _prepareCollection()
   {
+      $store = $this->getRequest()->getParam('store', 0);
+            
+      $prefix = Mage::getConfig()->getTablePrefix();
+            
       $collection = Mage::getModel('news/news')->getCollection();
+      
+      $collection->getSelect()->joinLeft($prefix.'news_data', 'main_table.news_id ='.$prefix.'news_data.news_id AND '.$prefix.'news_data.store_id = '.$store,
+              array('status','title','news_content','intro','date_to_publish','date_to_unpublish',));
       $this->setCollection($collection);
       return parent::_prepareCollection();
   }
@@ -25,6 +32,7 @@ class Biztech_News_Block_Adminhtml_News_Grid extends Mage_Adminhtml_Block_Widget
           'align'     =>'right',
           'width'     => '50px',
           'index'     => 'news_id',
+          'filter_index' => 'main_table.news_id',
       ));
 
       $this->addColumn('title', array(
@@ -54,7 +62,7 @@ class Biztech_News_Block_Adminhtml_News_Grid extends Mage_Adminhtml_Block_Widget
                 'actions'   => array(
                     array(
                         'caption'   => Mage::helper('news')->__('Edit'),
-                        'url'       => array('base'=> '*/*/edit'),
+                        'url'       => array('base'=> '*/*/edit','params' => array('store' => $this->getRequest()->getParam('store', 0))),
                         'field'     => 'id'
                     )
                 ),
@@ -77,7 +85,7 @@ class Biztech_News_Block_Adminhtml_News_Grid extends Mage_Adminhtml_Block_Widget
 
         $this->getMassactionBlock()->addItem('delete', array(
              'label'    => Mage::helper('news')->__('Delete'),
-             'url'      => $this->getUrl('*/*/massDelete'),
+               'url'      => $this->getUrl('*/*/massDelete', array('store'=>$this->getRequest()->getParam('store', 0))),
              'confirm'  => Mage::helper('news')->__('Are you sure?')
         ));
 
@@ -86,7 +94,7 @@ class Biztech_News_Block_Adminhtml_News_Grid extends Mage_Adminhtml_Block_Widget
         array_unshift($statuses, array('label'=>'', 'value'=>''));
         $this->getMassactionBlock()->addItem('status', array(
              'label'=> Mage::helper('news')->__('Change status'),
-             'url'  => $this->getUrl('*/*/massStatus', array('_current'=>true)),
+               'url'  => $this->getUrl('*/*/massStatus', array('_current'=>true,'store'=>$this->getRequest()->getParam('store', 0))),
              'additional' => array(
                     'visibility' => array(
                          'name' => 'status',
@@ -102,7 +110,7 @@ class Biztech_News_Block_Adminhtml_News_Grid extends Mage_Adminhtml_Block_Widget
 
   public function getRowUrl($row)
   {
-      return $this->getUrl('*/*/edit', array('id' => $row->getId()));
+      return $this->getUrl('*/*/edit', array('id' => $row->getId(),'store'=>$this->getRequest()->getParam('store', 0)));
   }
 
 }

@@ -1,12 +1,56 @@
-<?php
-    if(Mage::getStoreConfig('news/news_general/enabled') == 1):
-    ?>
-    <?php $news =  $this->getNews(); ?>
-    <div class="page-title"><h1><?php echo $news['title'];?></h1></div>
-    <p><?php echo $news['news_content'];?></p>       
+
+<?php if (Mage::getStoreConfig('news/news_general/enabled') == 1): ?>
     <?php
-        else:
-        $url = Mage::getBaseUrl();
-        Mage::app()->getFrontController()->getResponse()->setRedirect($url);
-        endif;
+    $news = $this->getNews();
+    $relatednews = $news['related_news'];
+
+    if (strlen($relatednews) != 0) {
+        $relatednewsdata = explode(",", $relatednews);
+    }
+    ?>
+
+    <?php if (($news->getDateToUnpublish() >= date('Y-m-d 00:00:00')) && ($news->getDateToPublish() < date('Y-m-d 23:59:59'))) { ?>
+        <div class="page-title"><h1><?php echo $news['title']; ?></h1></div>
+        
+        <div class="desc">
+        
+        <?php 
+            $msg = $news['news_content'];
+                            $helper = Mage::helper('cms');
+                            if ($helper) {
+                                $processor = $helper->getBlockTemplateProcessor();
+                                if ($processor) {
+                                    echo $content = $processor->filter($msg);
+                                }
+                            }
+        
+         ?>
+        
+        </div>
+        
+        
+        <?php if (count($relatednewsdata) != 0) : ?>
+            <div class="divider"></div>
+            <div class="news-related-title"><h3><?php echo $this->__('Related News'); ?></h3></div>
+            <?php
+            foreach ($relatednewsdata as $newsId):
+                $news = Mage::getModel('news/news')->load($newsId, "news_id");
+                $model_text = Mage::getModel('news/newsdata')->getCollection()->addFieldToFilter('store_id', $store)->addFieldToFilter('news_id', $newsId)->getData();
+                $text_data = $model_text[0];
+                ?>
+                <div class="block news-block">
+                    <div class="block-title"><strong><span><?php echo $text_data['title']; ?> </span></strong></div>
+                    <div class="block-content"><a href="<?php echo $this->getUrl('*/*/view') . '?id=' . $news->getNewsId(); ?>" class="read-more"><?php echo $this->__('Read more') ?></a></div>
+                </div>
+            <?php endforeach;
+        endif; ?> 
+
+    <?php }else { ?>
+        <ul class="message"><li class="notice-msg"><span><?php echo $this->__('No News Found.'); ?></span></li></ul>
+    <?php } ?>
+    <?php
+else:
+    $url = Mage::getBaseUrl();
+    Mage::app()->getFrontController()->getResponse()->setRedirect($url);
+endif;
 ?>
