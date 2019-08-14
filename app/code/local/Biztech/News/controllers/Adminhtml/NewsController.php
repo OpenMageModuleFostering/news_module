@@ -105,8 +105,8 @@
                     return;
                 }
 
-                $data['date_to_publish'] = date('Y-m-d H:i:s', strtotime($data['date_to_publish']));
-                $data['date_to_unpublish'] = date('Y-m-d H:i:s', strtotime($data['date_to_unpublish']));
+                $data['date_to_publish'] = date('Y-m-d H:i:s', strtotime($publish_date));
+                $data['date_to_unpublish'] = date('Y-m-d H:i:s', strtotime($unpublish_date));
                 $model = Mage::getModel('news/news');
                 $model->setData($data)
                 ->setId($this->getRequest()->getParam('id'));

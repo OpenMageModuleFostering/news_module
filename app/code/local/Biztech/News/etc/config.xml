@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Biztech_News>
-            <version>0.1.3</version>
+            <version>0.1.4</version>
         </Biztech_News>
     </modules>
     <frontend>
@@ -32,15 +32,16 @@
             </modules>
         </translate>
     </frontend>
+   
     <admin>
         <routers>
-            <news>
-                <use>admin</use>
-                <args>
-                    <module>Biztech_News</module>
-                    <frontName>news</frontName>
-                </args>
-            </news>
+            <adminhtml>
+                    <args>
+                    <modules>
+                        <news after="Mage_Adminhtml">Biztech_News_Adminhtml</news>
+                        </modules>
+                    </args>
+                </adminhtml>    
         </routers>
     </admin>
     <adminhtml>
@@ -52,12 +53,12 @@
                     <items module="news">
                         <title>Manage News</title>
                         <sort_order>0</sort_order>
-                        <action>news/adminhtml_news</action>
+                        <action>adminhtml/news</action>
                     </items>
                    <category module="news">
                         <title>Manage Category</title>
                         <sort_order>1</sort_order>
-                        <action>news/adminhtml_category</action>
+                        <action>adminhtml/category</action>
                    </category>
                 </children>
             </news>

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <layout version="0.1.0">
     
-    <news_adminhtml_news_index>
+    <adminhtml_news_index>
         <reference name="content">
             <block  type="adminhtml/store_switcher" name="store_switcher" as="store_switcher">
                 <action method="setUseConfirm">
@@ -10,14 +10,14 @@
             </block>
             <block type="news/adminhtml_news" name="news" />
         </reference>
-    </news_adminhtml_news_index>
+    </adminhtml_news_index>
     
-    <news_adminhtml_news_edit>
+    <adminhtml_news_edit>
         <update handle="editor" />
-    </news_adminhtml_news_edit>
+    </adminhtml_news_edit>
     
     
-    <news_adminhtml_category_index>
+    <adminhtml_category_index>
         <reference name="content">
             <block  type="adminhtml/store_switcher" name="store_switcher" as="store_switcher">
                 <action method="setUseConfirm">
@@ -26,9 +26,9 @@
             </block>
             <block type="news/adminhtml_category" name="category" />
         </reference>
-    </news_adminhtml_category_index>
+    </adminhtml_category_index>
     
-    <news_adminhtml_news_product>
+    <adminhtml_news_product>
         <block type="core/text_list" name="root" output="toHtml">
             <block type="news/adminhtml_news_edit_tab_related" name="related.grid"/>
                 <block type="adminhtml/widget_grid_serializer" name="grid_serializer">
@@ -42,11 +42,11 @@
                     </reference>
                 </block>
             </block>
-    </news_adminhtml_news_product>
+    </adminhtml_news_product>
 
-    <news_adminhtml_news_grid>
+    <adminhtml_news_grid>
         <block type="core/text_list" name="root" output="toHtml">
             <block type="news/adminhtml_news_edit_tab_related" name="related.grid"/>
         </block>
-    </news_adminhtml_news_grid>
+    </adminhtml_news_grid>
 </layout>
