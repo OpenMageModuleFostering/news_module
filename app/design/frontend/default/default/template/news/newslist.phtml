@@ -1,0 +1,43 @@
+<?php
+    if(Mage::getStoreConfig('news/news_general/enabled') == 1):
+        $i = 0;    
+        $collection = $this->getCachedCollection();
+        $count = count($collection);  
+        if($count !==0):
+        ?>
+        <?php
+            $breadcrumbs = $this->getLayout()->getBlock('breadcrumbs');
+            $breadcrumbs->addCrumb('home',array('label'=>Mage::helper('cms')->__('Home'), 'title'=>Mage::helper('cms')->__('Home Page'),'link'=>Mage::getBaseUrl())); 
+            $breadcrumbs->addCrumb('News', array('label'=>'News','title'=>'News'));
+            echo $this->getLayout()->getBlock('breadcrumbs')->toHtml();
+        ?>
+       
+            <?php foreach ($collection as $news_item): 
+                    $class='';
+
+                    if ($i==0):
+                        $class='first';
+                        elseif ($i==$count-1):
+                        $class='last';
+                        endif;
+                ?>
+                <div class="<?php echo $class ?> news-block block">
+                    <div class="copy">
+                        <h3><?php echo $news_item->getTitle(); ?></h3><p><?php echo $news_item->getIntro(); ?></p>
+                        <p class="read-more"><a href="<?php echo $this->getUrl('*/*/view').'?id='.$news_item->getNewsId(); ?>"><?php echo $this->__('Read more') ?></a></p>
+                    </div>
+                </div>
+                <?php endforeach; ?> 
+        
+        <?php echo $this->getChildHtml('Biztech_news_toolbar'); ?>
+        <?php
+            else:
+        ?>
+        <div><h4><?php echo $this->__('No News to publish.'); ?></h4></div>
+        <?php endif; ?> 
+    <?php
+        else:
+        $url = Mage::getBaseUrl();
+        Mage::app()->getFrontController()->getResponse()->setRedirect($url);
+        endif;
+?>

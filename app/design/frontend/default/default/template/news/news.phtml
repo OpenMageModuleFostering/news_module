@@ -1,0 +1,12 @@
+<?php
+    if(Mage::getStoreConfig('news/news_general/enabled') == 1):
+    ?>
+    <?php $news =  $this->getNews(); ?>
+    <div class="page-title"><h1><?php echo $news['title'];?></h1></div>
+    <p><?php echo $news['news_content'];?></p>       
+    <?php
+        else:
+        $url = Mage::getBaseUrl();
+        Mage::app()->getFrontController()->getResponse()->setRedirect($url);
+        endif;
+?>
