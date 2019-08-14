@@ -10,16 +10,16 @@ class Biztech_News_Block_Adminhtml_News_Edit_Tab_Seo extends Mage_Adminhtml_Bloc
      
    
       $fieldset->addField('browser_title', 'text', array(
-              'label'     => Mage::helper('news')->__('Browser Title'),
+              'label'     => Mage::helper('news')->__('Page Title'),
               'required'  => false,
               'name'      => 'browser_title',
           ));
-      $fieldset->addField('seo_keywords', 'text', array(
+      $fieldset->addField('seo_keywords', 'textarea', array(
               'label'     => Mage::helper('news')->__('Keywords'),
               'required'  => false,
               'name'      => 'seo_keywords',
           ));
-      $fieldset->addField('seo_description', 'text', array(
+      $fieldset->addField('seo_description', 'textarea', array(
               'label'     => Mage::helper('news')->__('Description'),
               'required'  => false,
               'name'      => 'seo_description',
