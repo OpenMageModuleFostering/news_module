@@ -1,16 +1,19 @@
 {
-    "name": "OpenMageModuleFostering/news_module",
+    "name": "OpenMageModuleFostering\/news_module",
     "type": "magento-module",
     "license": "OSL-v3.0",
     "homepage": "",
     "description": "The News Module Extension allows you to display news on your website for viewers",
     "authors": [
-    {
-        "name": "Biztech",
-        "email": "sales@biztechconsultancy.com"
-    }
-],
+        {
+            "name": "Biztech",
+            "email": "sales@biztechconsultancy.com"
+        }
+    ],
     "suggest": {
-        "magento-hackathon/magento-composer-installer": "*"
-    }
+        "magento-hackathon\/magento-composer-installer": "*"
+    },
+    "keywords": [
+        "openmage-module"
+    ]
 }
